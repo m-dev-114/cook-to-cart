@@ -1,0 +1,23 @@
+"""Evaluation recipes. Each line: (text, expect, allowed_ids, forbidden_ids, canon_hint).
+expect: 'exact' (an acceptable product exists and should be found), 'none' (nothing suitable in catalog), 'review' (only a different form/variety exists; must not be auto-selected)
+canon_hint: a word the interpretation (canonical or search queries) should contain."""
+RECIPES = {
+ "Rajma Chawal (split: dev)": [("200 g rajma", "exact", {"rajma"}, {"rajmamasala"}, "rajma"), ("2 tbsp ghee", "exact", {"ghee"}, set(), "ghee"), ("1 tsp jeera", "exact", {"jeera"}, {"jeerapow"}, "cumin"),
+    ("2 onions", "exact", {"onion"}, set(), "onion"), ("2 tomatoes", "exact", {"tomato"}, set(), "tomato"), ("1 tsp haldi", "exact", {"haldi"}, set(), "turmeric"), ("1 tsp red chilli powder", "exact", {"redchilli"}, set(), "chilli"),
+    ("1 inch adrak", "exact", {"adrak"}, {"adrakpaste"}, "ginger"), ("4 cloves lehsun", "exact", {"garlic"}, {"garlicpaste"}, "garlic"), ("2 tbsp coriander leaves", "exact", {"corleaf"}, {"corpow", "corseed"}, "coriander"), ("1 tsp salt", "exact", {"salt"}, {"blacksalt"}, "salt")],
+ "Paneer Butter Masala (dev)": [("250 g paneer", "exact", {"paneer"}, {"paneermix"}, "paneer"), ("2 tbsp butter", "exact", {"butter"}, {"vegan"}, "butter"), ("100 ml cream", "exact", {"cream"}, set(), "cream"), ("2 tomatoes", "exact", {"tomato"}, set(), "tomato"),
+    ("1 tsp kasuri methi", "exact", {"kasuri"}, {"methi", "methiseed"}, "methi"), ("1 tsp garam masala", "exact", {"garammasala"}, set(), "garam"), ("2 green chilli", "exact", {"gchilli"}, {"gchillisauce"}, "chilli")],
+ "Pudina Raita + Aloo (dev)": [("200 g dahi", "exact", {"curd"}, {"curdflav"}, "yogurt"), ("1 tbsp pudina", "exact", {"mint"}, {"mintgum", "mintcandy", "cumsauce"}, "mint"), ("1 tsp jeera powder", "exact", {"jeerapow"}, {"jeera"}, "cumin"),
+    ("3 potatoes", "exact", {"potato"}, set(), "potato"), ("1 tsp kala namak", "exact", {"blacksalt"}, {"salt"}, "salt")],
+ "Palak Dal Tadka (held-out)": [("1 bunch palak", "exact", {"palak"}, set(), "spinach"), ("150 g toor dal", "exact", {"toor"}, {"chanadal", "moong"}, "dal"), ("1 tsp hing", "exact", {"hing"}, set(), "asafoetida"), ("10 curry leaves", "exact", {"curryleaf"}, set(), "curry"),
+    ("1 tsp ajwain", "exact", {"ajwain"}, set(), "carom"), ("1 tbsp ghee", "exact", {"ghee"}, set(), "ghee"), ("1 lemon", "exact", {"lemon"}, set(), "lemon")],
+ "Methi Thepla (held-out)": [("2 cups atta", "exact", {"atta"}, set(), "wheat"), ("1 bunch fresh methi leaves", "exact", {"methi"}, {"kasuri", "methiseed"}, "methi"), ("2 tbsp besan", "exact", {"besan"}, set(), "gram"), ("1 tsp ajwain", "exact", {"ajwain"}, set(), "ajwain"),
+    ("2 tbsp mustard oil", "exact", {"mustoil"}, {"sunoil"}, "mustard"), ("100 g curd", "exact", {"curd"}, {"curdflav"}, "yogurt")],
+ "Bhindi Masala (held-out)": [("250 g bhindi", "exact", {"bhindi"}, set(), "okra"), ("1 tsp amchur", "exact", {"amchur"}, set(), "mango"), ("1 tsp saunf", "exact", {"saunf"}, set(), "fennel"), ("1 onion", "exact", {"onion"}, set(), "onion"), ("1 tsp coriander seeds", "exact", {"corseed"}, {"corpow", "corleaf"}, "coriander")],
+ "Imli Chutney (held-out)": [("100 g imli", "exact", {"tamarind"}, {"tamcandy"}, "tamarind"), ("50 g gur", "exact", {"jaggery"}, set(), "jaggery"), ("1 tsp jeera", "exact", {"jeera"}, {"jeerapow"}, "cumin"), ("1 tsp black salt", "exact", {"blacksalt"}, {"salt"}, "salt")],
+ "Veg Stir Fry with unavailable items (held-out)": [("1 red capsicum", "exact", {"capsr"}, {"capsg"}, "capsicum"), ("1 green capsicum", "exact", {"capsg"}, {"capsr"}, "capsicum"), ("1 tsp lemongrass", "none", set(), set(), "lemongrass"),
+    ("2 tbsp soy sauce", "none", set(), set(), "soy"), ("200 g tofu", "none", set(), set(), "tofu"), ("1 tsp saffron", "exact", {"saffron"}, set(), "saffron")],
+ "Chicken Biryani (held-out)": [("500 g chicken", "exact", {"chicken"}, {"chickchips"}, "chicken"), ("250 g basmati rice", "exact", {"basmati"}, {"brokenbas"}, "basmati"), ("2 tbsp ghee", "exact", {"ghee"}, set(), "ghee"), ("1 tsp elaichi", "exact", {"elaichi"}, set(), "cardamom"),
+    ("4 laung", "exact", {"clove"}, set(), "clove"), ("1 inch dalchini", "exact", {"cinn"}, set(), "cinnamon"), ("2 tej patta", "exact", {"bay"}, set(), "bay"), ("1 tbsp ginger paste", "exact", {"adrakpaste"}, set(), "ginger"), ("10 mint leaves", "exact", {"mint"}, {"mintgum", "mintcandy"}, "mint")],
+ "Lauki Kofta (held-out)": [("1 lauki", "exact", {"lauki"}, set(), "bottle gourd"), ("2 tbsp besan", "exact", {"besan"}, set(), "gram"), ("1 kaddu", "exact", {"kaddu"}, set(), "pumpkin"), ("200 g arbi", "exact", {"arbi"}, set(), "colocasia"), ("1 egg", "exact", {"egg"}, set(), "egg")],
+}

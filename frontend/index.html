@@ -1,0 +1,142 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="app-version" content="18"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cook to Cart – dish, recipe or video to grocery cart</title>
+<style>
+:root{--bg:#faf6ef;--surface:#fff;--soft:#f4efe6;--ink:#26211c;--muted:#655d54;--line:#e7dfd2;--brand:#c2410c;--brand-d:#9a3412;--brand-soft:#fff1e6;--ok:#17692b;--ok-soft:#ecf7ee;--warn:#8a5a00;--warn-soft:#fff6dd;--bad:#b00020;--bad-soft:#fdecee;
+--r-s:8px;--r-m:12px;--r-l:16px;--sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:24px;--sh:0 1px 2px rgba(38,33,28,.06),0 2px 8px rgba(38,33,28,.05);--ctl:44px;--fast:.14s ease}
+*{box-sizing:border-box}
+body{font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;max-width:960px;margin:0 auto;padding:0 var(--sp-4) 112px;color:var(--ink);background:var(--bg);overflow-wrap:anywhere;-webkit-font-smoothing:antialiased}
+h1{margin:0;font-size:19px;letter-spacing:-.01em}h2{margin:0 0 var(--sp-2);font-size:20px;letter-spacing:-.015em}h3{margin:var(--sp-4) 0 var(--sp-2);font-size:16px}
+h2[tabindex="-1"]:focus{outline:none}
+section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:var(--sp-5);margin:var(--sp-4) 0;box-shadow:var(--sh)}
+input,textarea,select,button{font:inherit;color:inherit;border:1px solid #cfc6b8;border-radius:var(--r-s);max-width:100%;transition:background var(--fast),border-color var(--fast),box-shadow var(--fast)}
+input,select{height:var(--ctl);padding:0 var(--sp-3);background:#fff}textarea{padding:var(--sp-3);background:#fff;width:100%}input,textarea{width:100%}
+input:focus,textarea:focus,select:focus{border-color:var(--brand)}
+button{background:var(--brand);color:#fff;border:0;cursor:pointer;padding:0 var(--sp-4);min-height:var(--ctl);font-weight:600}button:hover{background:var(--brand-d)}button:active{transform:translateY(1px)}
+button.alt{background:var(--soft);color:var(--ink);border:1px solid var(--line)}button.alt:hover{background:#ebe4d6}button:disabled{opacity:.5;cursor:not-allowed}
+:focus-visible{outline:3px solid #1a56db;outline-offset:2px}
+.err{color:var(--bad);font-weight:600}.muted,small{color:var(--muted)}.hide,.off{display:none!important}
+.top{position:sticky;top:0;z-index:6;background:var(--bg);padding:var(--sp-3) 0 var(--sp-2);margin:0 calc(var(--sp-4)*-1);padding-left:var(--sp-4);padding-right:var(--sp-4);border-bottom:1px solid var(--line)}
+.head{display:flex;gap:var(--sp-3);justify-content:space-between;align-items:center;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:var(--sp-2)}.brand svg{flex:none}
+.hr{display:flex;gap:var(--sp-2);align-items:center;flex-wrap:wrap;min-width:0}
+.pill,#addrchip{font-size:13px;line-height:1.3;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px;max-width:100%;display:inline-flex;align-items:center;gap:6px;min-width:0}
+#addrchip{max-width:min(420px,100%)}#addrchip .txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+#addrchip button,.pill button{padding:0 4px;min-height:0;background:none;color:#1a56db;text-decoration:underline;font-weight:500}
+.pill .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none}.pill.warn .dot{background:#d99a00}
+.steps{display:flex;gap:0;list-style:none;margin:var(--sp-3) 0 0;padding:0}
+.steps li{flex:1;position:relative}.steps li+li::before{content:"";position:absolute;left:-50%;right:50%;top:15px;height:2px;background:var(--line)}
+.steps button{width:100%;background:none;color:var(--muted);border:0;padding:0 4px;min-height:48px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:13px;position:relative;z-index:1}
+.steps button:hover{background:none;color:var(--ink)}
+.steps .n{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2px solid var(--line);font-weight:700;font-size:13px}
+.steps button[aria-current="step"]{color:var(--ink);font-weight:700}.steps button[aria-current="step"] .n{background:var(--brand);border-color:var(--brand);color:#fff}
+.steps button.done .n{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}.steps button.done .n::after{content:"✓";margin-left:0}.steps button.done .n span{display:none}
+.hero{padding:var(--sp-2) 0 var(--sp-3)}.hero h2{font-size:26px;margin:0 0 var(--sp-1)}.hero p{margin:0;color:var(--muted)}
+.composer{border:1px solid #cfc6b8;border-radius:var(--r-m);background:#fff;padding:var(--sp-2);margin:var(--sp-4) 0 var(--sp-2)}.composer:focus-within{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+.composer textarea{border:0;resize:vertical;min-height:84px;padding:var(--sp-2)}.composer textarea:focus{outline:none}.composer .act{display:flex;justify-content:space-between;align-items:center;gap:var(--sp-3);flex-wrap:wrap;padding:var(--sp-1) var(--sp-1) 0}
+.sugg{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin:var(--sp-2) 0 var(--sp-4)}.sugg button{min-height:34px;font-size:13px;font-weight:500;border-radius:999px;padding:0 var(--sp-3)}
+fieldset{border:1px solid var(--line);border-radius:var(--r-m);margin:0 0 var(--sp-3);padding:var(--sp-3) var(--sp-4);min-width:0}legend{font-weight:600;font-size:13px;padding:0 var(--sp-2);color:var(--muted)}
+.addr{display:flex;gap:var(--sp-2);align-items:flex-start;padding:var(--sp-2) 0}.addr input{width:auto;height:auto;margin-top:4px}
+.card{border:1px solid var(--line);border-radius:var(--r-m);padding:var(--sp-4);margin:var(--sp-3) 0;background:#fff;box-shadow:var(--sh)}
+.ihead{display:flex;gap:var(--sp-3);justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:var(--sp-3)}.ihead select{height:38px;font-size:13px}
+.req{background:none;padding:0;font-size:15px}.req .st{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;margin-right:var(--sp-2);background:var(--ok-soft);color:var(--ok)}.req .st.bad{background:var(--bad-soft);color:var(--bad)}.req .st.mid{background:var(--warn-soft);color:var(--warn)}.req .st.off2{background:var(--soft);color:var(--muted)}
+.sel{background:var(--ok-soft);padding:var(--sp-2) var(--sp-3);border-radius:var(--r-s);margin-top:var(--sp-3);font-size:14px}.sel small{display:block}
+.sub{background:var(--warn-soft);padding:var(--sp-2);border-radius:var(--r-s);margin-top:var(--sp-2)}
+.cov{border:1px solid var(--line);border-radius:var(--r-m);background:var(--soft);padding:var(--sp-3) var(--sp-4);margin:var(--sp-3) 0}.cov b{font-size:15px}
+.stats{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin:var(--sp-2) 0 0}.stat{font-size:12.5px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted)}.stat b{color:var(--ink);font-size:13px}.stat.bad{background:var(--bad-soft);border-color:#f3c0c7;color:var(--bad)}.stat.bad b{color:var(--bad)}
+.cov .issue{margin-top:var(--sp-2);font-size:14px}
+#filters{display:flex;gap:6px;flex-wrap:wrap;margin:var(--sp-3) 0}#filters button{min-height:34px;font-size:13px;padding:0 12px;font-weight:500}
+.row{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:var(--sp-2);padding:var(--sp-2) 0}
+.pc{border:1px solid var(--line);border-radius:var(--r-m);padding:var(--sp-2);background:#fff;display:flex;flex-direction:column;gap:2px}.pc.on{border-color:var(--ok);box-shadow:0 0 0 2px #c8e6c9}.pc.out{opacity:.55}
+.pn{font-weight:600;font-size:13px;min-height:36px}
+.pimg,.ph.pimg{width:100%;height:96px;object-fit:contain;display:block;border-radius:var(--r-s)}
+.thumb,.ph.thumb{width:72px;height:72px;object-fit:contain;flex:none;border-radius:var(--r-s)}
+.ph{display:grid;place-items:center;background:var(--soft);color:#b5a999;border:1px solid var(--line)}.ph svg{width:46%;height:46%}
+.chosen{display:flex;gap:var(--sp-3);align-items:center}.chosen>div{min-width:0;flex:1}
+.stepper-q{display:inline-flex;align-items:center;gap:var(--sp-2);margin-top:var(--sp-2)}.stepper-q button{min-height:34px;width:34px;padding:0}.stepper-q span{min-width:64px;text-align:center;font-weight:600}
+.plan{display:flex;gap:var(--sp-3);align-items:center}.plan>div{min-width:0;flex:1}.plan .tot{font-weight:700;white-space:nowrap}
+.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.97);border-top:1px solid var(--line);padding:var(--sp-2) var(--sp-4) calc(var(--sp-2) + env(safe-area-inset-bottom));z-index:7;box-shadow:0 -4px 16px rgba(38,33,28,.06)}
+.barin{max-width:960px;margin:0 auto;display:flex;gap:var(--sp-3);align-items:center;justify-content:space-between;flex-wrap:wrap}
+#barsum{flex:1 1 220px;font-size:13px;color:var(--muted)}.btns{display:flex;gap:var(--sp-2)}
+.skel{opacity:.6;animation:pulse 1s infinite alternate}@keyframes pulse{to{opacity:.3}}
+.field{display:block;margin:var(--sp-2) 0}.field>span{display:block;font-weight:600;font-size:13px;margin-bottom:4px}
+.pair{display:flex;gap:var(--sp-4);flex-wrap:wrap;align-items:end}
+@media (prefers-reduced-motion:reduce){.skel{animation:none}*{transition:none!important}}
+@media (max-width:560px){body{padding:0 var(--sp-3) 128px}.top{margin:0 calc(var(--sp-3)*-1);padding-left:var(--sp-3);padding-right:var(--sp-3)}section{padding:var(--sp-4);border-radius:var(--r-m)}.hero h2{font-size:22px}.row{grid-template-columns:repeat(2,1fr)}.btns{width:100%}.btns button{flex:1}#addrchip{max-width:100%}.steps .l{font-size:12px}}
+.chosen small{display:block}.pimg,.ph.pimg{height:96px}
+.plan>div:nth-child(2){flex:1;min-width:0}.plan .tot{flex:none;text-align:right;align-self:flex-start;font-size:16px}.plan .muted{margin-bottom:2px}
+#addrfs:has(#addrbox:empty){display:none}
+button,.pill button,#addrchip button{white-space:nowrap}
+.ph small{font-size:11px}
+@media (max-width:560px){.top{position:static;border-bottom:0}.head{gap:var(--sp-2)}.hr{width:100%}.hr>*{flex:1 1 100%}#addrchip,.pill{border-radius:var(--r-s)}.btns button{padding:0 var(--sp-2);font-size:14px}.bar{padding-top:6px}.barin{gap:6px}#barsum{flex:1 1 100%}.steps{position:sticky;top:0;background:var(--bg);z-index:5;margin-top:var(--sp-2);padding-bottom:var(--sp-1)}.ihead{align-items:flex-start}.ihead select{width:100%}.plan{align-items:flex-start}.thumb,.ph.thumb{width:56px;height:56px}}
+button.lnk{background:none;color:var(--brand-d);border:0;min-height:32px;padding:0;text-decoration:underline;font-weight:600}button.lnk:hover{background:none;color:var(--brand)}
+.summary{border:1px solid var(--line);border-radius:var(--r-m);background:var(--soft);padding:var(--sp-4);margin:var(--sp-4) 0}.summary h3{margin-top:0}
+.srow{display:flex;justify-content:space-between;gap:var(--sp-3);padding:6px 0;border-bottom:1px dashed var(--line)}.srow:last-of-type{border-bottom:0}.srow.ok b{color:var(--ok)}.srow.bad b{color:var(--bad)}.srow b{text-align:right;flex:none}
+.bill{margin-top:var(--sp-2)}.warnbox{background:var(--warn-soft);border:1px solid #ecd48b;color:#5c3d00;border-radius:var(--r-s);padding:var(--sp-2) var(--sp-3);margin-top:var(--sp-3);display:flex;gap:var(--sp-2);align-items:center;flex-wrap:wrap}.inl{display:inline-flex;gap:6px;align-items:center}.inl input{width:auto;height:auto}
+.cta{display:flex;gap:var(--sp-3);align-items:center;margin-top:var(--sp-4);flex-wrap:wrap}.cur{margin:0 0 var(--sp-3);padding-left:20px}
+@media (max-width:560px){.cta button{width:100%}}
+@media (max-width:560px){#barsum{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}}
+</style>
+<style id="qa">
+/* visual QA pass: layout refinements only (tokens above are reused) */
+.how{list-style:none;counter-reset:h;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-3);margin:var(--sp-5) 0 0;padding:var(--sp-4) 0 0;border-top:1px solid var(--line)}
+.how li{counter-increment:h;display:flex;flex-direction:column;gap:2px;font-size:13.5px;color:var(--muted);padding-left:36px;position:relative}
+.how li::before{content:counter(h);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--brand-soft);color:var(--brand-d);font-weight:700;font-size:13px;display:grid;place-items:center}
+.how b{color:var(--ink);font-size:14px}
+.cov details.issues{margin-top:var(--sp-2)}.cov summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--bad);padding:4px 0}.cov .issue{margin-top:4px;font-weight:500}
+.ph svg{width:44%;height:44%}.ph{color:#c2b8aa}
+.ihead select{height:34px;font-size:12.5px;border-color:var(--line);background:var(--soft);color:var(--muted);padding:0 8px}
+.sel small{font-size:12px;color:var(--muted)}
+#prods .card .chosen+*,#prods .card button.alt{font-size:13px}
+@media (min-width:1000px){
+ body{max-width:1160px}.barin{max-width:1160px}
+ #prods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-3);align-items:start}#prods>.card{margin:0}#prods>.skel{margin:0}
+ #basket{display:grid;grid-template-columns:minmax(0,1fr) 360px;column-gap:var(--sp-5);align-items:start}
+ #basket>*{grid-column:1}#basket>.summary{grid-column:2;grid-row:1/span 40;position:sticky;top:132px;margin:0}
+ .hero{max-width:640px}
+}
+@media (max-width:560px){
+ .hr{flex-wrap:nowrap;width:100%;gap:var(--sp-2)}.hr>*{flex:1 1 auto;min-width:0}.hr>#banner{flex:0 1 38%}
+ .pill{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;line-height:1.6}#addrchip{flex:1 1 62%}
+ .how{grid-template-columns:1fr}
+}
+.ihead{flex-wrap:nowrap;align-items:flex-start}.ihead .req{min-width:0;flex:1}.ihead select{flex:none;width:auto;max-width:150px}
+#filters button{min-height:32px;font-size:12.5px;padding:0 10px}
+@media (max-width:560px){
+ .hr{flex-wrap:wrap;gap:2px}.hr>*{flex:1 1 100%}#addrchip{flex:1 1 100%}
+ .hr>#banner{flex:1 1 100%;border:0;background:none;padding:0 var(--sp-2);font-size:12px;color:var(--muted)}
+ .ihead{flex-wrap:wrap}
+}
+</style>
+<style id="dlgcss">.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:99;padding:16px}.dlgbox{background:Canvas;color:CanvasText;border-radius:12px;max-width:620px;width:100%;max-height:90vh;overflow:auto;padding:16px 20px}.dlgbox h4{margin:14px 0 4px}ul.cd{padding-left:0;list-style:none;margin:0}.cd-row{padding:6px 0;border-bottom:1px solid rgba(128,128,128,.25)}.cd-row small{display:block;opacity:.75}.dlgbox .foot{position:sticky;bottom:-16px;background:Canvas;padding:12px 0 4px;display:flex;gap:8px;justify-content:flex-end}.stat.warn{border-color:#d97706;color:#b45309}@media(max-width:480px){.dlgbox{padding:12px}}</style>
+<style id="xcss">.xbox{margin:var(--sp-3,12px) 0}.xrow{display:flex;gap:8px;flex-wrap:wrap}.xrow input{flex:1 1 220px;min-width:0}.xres{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:10px}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.tag{display:inline-block;background:#e8f0fe;color:#1a56db;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:600}@media(max-width:480px){.xres{grid-template-columns:1fr}}</style>
+</head><body>
+<header class="top">
+ <div class="head"><div class="brand"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#c2410c"/><path d="M6 8h12l-1.2 7.2a1.6 1.6 0 0 1-1.6 1.3H8.8a1.6 1.6 0 0 1-1.6-1.3L6 8Zm0 0-.5-2H4M9.5 8l1.2-2.2m3.8 2.2-1.2-2.2" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><h1>Cook to Cart</h1></div>
+  <div class="hr"><div id="addrchip" class="hide" aria-live="polite"></div><div id="banner" class="pill" role="status"></div></div></div>
+ <nav aria-label="Progress"><ol class="steps" id="stepper">
+  <li><button type="button" data-go="1" data-label="Recipe"><span class="n"><span>1</span></span><span class="l">Recipe</span></button></li><li><button type="button" data-go="2" data-label="Products"><span class="n"><span>2</span></span><span class="l">Products</span></button></li><li><button type="button" data-go="3" data-label="Review"><span class="n"><span>3</span></span><span class="l">Review</span></button></li></ol></nav>
+</header>
+<p id="err" class="err" role="alert"></p>
+<main id="main" tabindex="-1">
+<section id="s1" data-step="1" aria-labelledby="h1a"><div class="hero"><h2 id="h1a" tabindex="-1">What are we cooking today?</h2><p>From a dish name, a recipe or a video link to a ready-to-shop grocery cart. You stay in control of what goes in.</p></div>
+ <fieldset id="addrfs"><legend>Delivery address (choose first)</legend><div id="addrbox"></div></fieldset>
+ <label for="q" class="field"><span>Your dish, recipe or link</span></label>
+ <div class="composer"><textarea id="q" rows="3" placeholder="Chicken dum biryani for four, a pasted recipe, or a YouTube link…"></textarea>
+  <div class="act"><span id="status" class="muted" role="status"></span><button id="go" type="button">Build my grocery list →</button></div></div>
+ <div class="sugg" id="sugg" aria-label="Examples"><button class="alt" type="button">Chicken dum biryani</button><button class="alt" type="button">Paneer butter masala</button><button class="alt" type="button">Pasta for two</button><button class="alt" type="button">Dal tadka with rice</button></div>
+ <ol class="how" aria-label="How it works"><li><b>Tell us what you're cooking</b><span>A dish name, pasted recipe or video link.</span></li><li><b>Review live matches</b><span>Real Instamart products, prices and stock. You approve every substitution.</span></li><li><b>Confirm your cart</b><span>We update your cart and check it again. Nothing is ordered or paid.</span></li></ol>
+</section>
+<section id="s2" data-step="1" class="hide" aria-labelledby="h2a"><h2 id="h2a">Recipe details</h2><p id="title"></p><div id="info"></div>
+ <div class="pair"><label class="field"><span>Servings</span><input id="serv" type="number" min="1" max="100" style="width:90px"></label>
+ <label class="field"><span>Budget ₹ (optional)</span><input id="budget" type="number" min="0" style="width:120px"></label>
+ <label class="field"><span>Optimize for</span><select id="optmode"><option value="best">Best fit</option><option value="cheapest">Cheapest</option><option value="least_excess">Least excess</option></select></label></div>
+ <p><b>Already have (pantry):</b> <span id="pantrylist"></span></p>
+ <div class="pair"><label class="field" style="flex:1 1 260px"><span>Add a pantry item</span><input id="pname" placeholder="e.g. 200 g butter, or just: garlic"></label><button id="padd" class="alt" type="button">Add</button></div></section>
+<section id="s3" data-step="2" class="off" aria-labelledby="h3a"><h2 id="h3a" tabindex="-1">Step 2 · Ingredients &amp; products</h2>
+ <p class="muted">Each ingredient shows the best live Instamart match. Open “alternatives” to choose another product. The recipe amount is not the pack you buy.</p>
+ <div id="extrasec"></div>
+ <div id="cov"></div><div id="filters" role="group" aria-label="Filter ingredients"></div><div id="prods" aria-live="polite"></div></section>
+<section id="s4" data-step="3" class="off" aria-labelledby="h4a"><h2 id="h4a" tabindex="-1">Step 3 · Review cart</h2><div id="sync" class="muted" style="font-weight:600;margin:6px 0" role="status"></div><div id="basket"></div></section>
+</main>
+<div id="bar" class="bar hide"><div class="barin"><span id="barsum" aria-live="polite"></span><span class="btns"><button id="back" class="alt" type="button">← Back</button><button id="next" type="button">Continue →</button></span></div></div>
+<script src="config.js?v=18"></script><script src="app.js?v=18"></script></body></html>
