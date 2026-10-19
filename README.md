@@ -14,7 +14,10 @@ Source of the diagram: `docs/architecture.png` (stack shown is the stack as buil
 
 ## Demo video
 
-[▶ Watch Cook to Cart in action](docs/cook-to-cart-demo.mp4)
+[▶ Watch Cook to Cart in action] 
+
+https://github.com/user-attachments/assets/8c79cfcc-d67b-44d3-acb8-657ee7ad216d
+
 
 ## How it works
 
