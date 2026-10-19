@@ -6,6 +6,13 @@ Turn a dish name, a pasted recipe, a recipe page URL or a YouTube link into a **
 - **Live products.** In live mode every product, price, pack size and stock status comes from the official Swiggy Instamart MCP. The mock catalog is used only in `INSTAMART_MODE=local` (demos, tests, screenshots).
 - **You stay in control.** A product is only auto-selected when its live listing confirms the ingredient. Everything else is shown as *Needs review* and added only after you approve it.
 
+## Demo video
+
+[Watch the Cook to Cart demo](docs/cook-to-cart-demo.mp4)
+
+The demo walks through recipe input, live Instamart product matching,
+ingredient review, and the confirmed cart update flow.
+
 ## Architecture overview
 
 ![Cook to Cart architecture: recipe input, extraction, interpretation, retrieval, validation and matching, review](docs/architecture.png)
